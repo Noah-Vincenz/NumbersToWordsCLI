@@ -1,0 +1,35 @@
+#! /bin/bash
+
+# check if argument is provided
+if [ $# -eq 0 ]; then
+  echo "No argument provided"
+  exit 1
+fi
+
+# check if more than 1 argument is provided
+if [ "$#" -ne 1 ]; then
+  echo "Only one argument should be provided"
+  exit 1
+fi
+
+# check if first argument is an empty string
+if [ -z "$1" ]; then
+  echo "Empty string argument provided"
+  exit 1
+fi
+
+# check if argument is a non-negative number
+regex_zero='^0$'
+regex='^[1-9][0-9]*$'
+if ! [[ $1 =~ $regex_zero ]] && ! [[ $1 =~ $regex ]]; then
+  echo "Argument provided is not a non-negative number"
+  exit 1
+fi
+
+# check if argument number is within accepted input range
+if (($1 > 100000)); then
+  echo "Argument provided is not within accepted input range between 0 and 100,000"
+  exit 1
+fi
+
+java ./src/main/java/NumbersToWords.java "$1"
